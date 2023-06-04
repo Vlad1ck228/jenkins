@@ -15,20 +15,20 @@ pipeline  {
         stage("Git clone") {
             steps {
                 sh '''
-                cd /home/dik/gitr/
-                git clone https://github.com/Makson8286/jenk           
+                cd /home/ubuntu/zabbix/
+                git clone https://github.com/Vlad1ck228/jenkins.git         
                 '''
             }
         }    
         stage("Build") {
             steps {
                 sh '''
-                cd /home/dik/gitr/jenk/Postgres
-                docker build -t makson8286/zabk:post .
-                cd /home/dik/gitr/jenk/Zab-serv
-                docker build -t makson8286/zabk:serv .
-                cd /home/dik/gitr/jenk/Zab-web
-                docker build -t makson8286/zabk:web .
+                cd /home/ubuntu/zabbix/jenkins/Postgres
+                docker build -t vladhl/zabk:post .
+                cd /home/ubuntu/zabbix/jenkins/Zab-serv
+                docker build -t vladhl/zabk:serv .
+                cd /home/ubuntu/zabbix/jenkins/Zab-web
+                docker build -t vladhl/zabk:web .
                 '''
             }
         } 
@@ -41,7 +41,7 @@ pipeline  {
                 --network zabbix-net \
                 -v /var/lib/zabbix/timezone:/etc/timezone \
                 -v /var/lib/zabbix/localtime:/etc/localtime \
-                -d makson8286/zabk:post
+                -d vladhl/zabk:post
                 '''
             }
         }
@@ -55,7 +55,7 @@ pipeline  {
                 -v /var/lib/zabbix/timezone:/etc/timezone \
                 -v /var/lib/zabbix/localtime:/etc/localtime \
                 -p 10051:10051 \
-                -d makson8286/zabk:serv
+                -d vladhl/zabk:serv
                 '''
             }
         }
@@ -70,7 +70,7 @@ pipeline  {
                 -v /var/lib/zabbix/timezone:/etc/timezone \
                 -v /var/lib/zabbix/localtime:/etc/localtime \
                 -e PHP_TZ="Europe/Kiev" \
-                -d makson8286/zabk:web
+                -d vladhl/zabk:web
                 '''
             }
         }
@@ -88,9 +88,9 @@ pipeline  {
             steps {
                 echo " ============== pushing image =================="
                 sh '''
-                docker push makson8286/zabk:post
-                docker push makson8286/zabk:serv
-                docker push makson8286/zabk:web
+                docker push vladhl/zabk:post
+                docker push vladhl/zabk:serv
+                docker push vladhl/zabk:web
                 '''
             }
         }
